@@ -6,6 +6,10 @@ android {
     namespace 'edu.sjsu.android.cookmate'
     compileSdk 33
 
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "edu.sjsu.android.cookmate"
         minSdk 29
