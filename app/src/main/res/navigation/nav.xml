@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="edu.sjsu.android.cookmate.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_detailScreen"
+            app:destination="@id/detailScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailScreen"
+        android:name="edu.sjsu.android.cookmate.DetailScreen"
+        android:label="fragment_detail_screen"
+        tools:layout="@layout/fragment_detail_screen" />
+    <fragment
+        android:id="@+id/informationScreen"
+        android:name="edu.sjsu.android.cookmate.InformationScreen"
+        android:label="fragment_information_screen"
+        tools:layout="@layout/fragment_information_screen" >
+        <argument
+            android:name="DemonSlayer"
+            app:argType="edu.sjsu.android.cookmate.DemonSlayer" />
+    </fragment>
+
+    <action android:id="@+id/action_global_informationScreen" app:destination="@id/informationScreen" />
+
+
+</navigation>
