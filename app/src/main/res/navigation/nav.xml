@@ -25,7 +25,7 @@
         tools:layout="@layout/fragment_information_screen" >
         <argument
             android:name="DemonSlayer"
-            app:argType="edu.sjsu.android.cookmate.DemonSlayer" />
+            app:argType="edu.sjsu.android.cookmate.RecipeItem" />
     </fragment>
 
     <action android:id="@+id/action_global_informationScreen" app:destination="@id/informationScreen" />
