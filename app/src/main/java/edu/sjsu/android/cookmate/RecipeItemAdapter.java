@@ -7,17 +7,20 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import edu.sjsu.android.cookmate.databinding.FragmentItemBinding;
 
 // My adapter class that binds to each row in the list of rows.
-public class DemonSlayerAdapter extends RecyclerView.Adapter<DemonSlayerAdapter.ViewHolder> {
+public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.ViewHolder> {
 
-    private final List<DemonSlayer> mValues;
+    private final List<RecipeItem> mValues;
 
     // Initialised the constructor with a list of "demon slayers"
-    public DemonSlayerAdapter(List<DemonSlayer> items) {
+    public RecipeItemAdapter(List<RecipeItem> items) {
         mValues = items;
     }
 
@@ -30,12 +33,11 @@ public class DemonSlayerAdapter extends RecyclerView.Adapter<DemonSlayerAdapter.
     // Retrieves each Demon Slayer from the List of demon slayers & update for each row view
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        DemonSlayer demonSlayer = mValues.get(position);
+        RecipeItem recipeItem = mValues.get(position);
         // Set the image as the launcher icon of Android
-        holder.binding.icon.setImageResource(demonSlayer.getImage());
+        Picasso.get().load(recipeItem.getImage()).into(holder.binding.icon);
         // Get the current data from the arraylist based on the position
-        holder.binding.content.setText(demonSlayer.getName());
-        holder.binding.content.setText(demonSlayer.getName());
+        holder.binding.content.setText(recipeItem.getTitle());
     }
 
     // Returns the total number of demon slayers
@@ -57,8 +59,8 @@ public class DemonSlayerAdapter extends RecyclerView.Adapter<DemonSlayerAdapter.
                 // Launch Detail Screen for corresponding item
                 Bundle bundle = new Bundle();
                 int position = getAdapterPosition();
-                DemonSlayer demonSlayer = mValues.get(position);
-                bundle.putSerializable("DEMON_SLAYER", demonSlayer);
+                RecipeItem recipeItem = mValues.get(position);
+                bundle.putSerializable("DEMON_SLAYER", recipeItem);
                 if(position == mValues.size()-1) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder.setTitle("Confirmation");

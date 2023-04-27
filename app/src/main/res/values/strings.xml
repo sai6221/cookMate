@@ -15,4 +15,6 @@
     <string name="error_password_match">Passwords don\'t match</string>
     <string name="success_message">Registration Successful</string>
     <string name="error_email_exists">Email Already Exists</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="search">Search</string>
 </resources>

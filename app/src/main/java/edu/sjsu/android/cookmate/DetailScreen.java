@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
 import edu.sjsu.android.cookmate.databinding.FragmentDetailScreenBinding;
 
 public class DetailScreen extends Fragment {
 
     // TODO: Rename and change types of parameters
-    DemonSlayer demonSlayer;
+    RecipeItem recipeItem;
     private FragmentDetailScreenBinding binding;
     public DetailScreen() {
         // Required empty public constructor
@@ -23,7 +25,7 @@ public class DetailScreen extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            demonSlayer = (DemonSlayer) getArguments().getSerializable("DEMON_SLAYER");
+            recipeItem = (RecipeItem) getArguments().getSerializable("DEMON_SLAYER");
         }
     }
 
@@ -32,9 +34,9 @@ public class DetailScreen extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentDetailScreenBinding.inflate(inflater, container, false);
         // Inflate the layout for this fragment
-        binding.detailTitle.setText(demonSlayer.getName());
-        binding.detailImage.setImageResource(demonSlayer.getImage());
-        binding.detailDescription.setText(demonSlayer.getDescription());
+        binding.detailTitle.setText(recipeItem.getTitle());
+
+        Picasso.get().load(recipeItem.getImage()).into(binding.detailImage);
         return binding.getRoot();
     }
 }
