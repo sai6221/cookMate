@@ -3,6 +3,7 @@ package edu.sjsu.android.cookmate;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,6 +35,14 @@ public class MainFragment extends Fragment {
     public boolean onSearch(TextView textView, int actionId, KeyEvent keyEvent) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             searchText = textView.getText().toString();
+            // In your Fragment code
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                RecipeItemFragment recipeItemFragment = (RecipeItemFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerView);
+                if (recipeItemFragment != null) {
+                    recipeItemFragment.searchRecipes(searchText, getContext());
+                }
+            }
             return true;
         }
         return false;

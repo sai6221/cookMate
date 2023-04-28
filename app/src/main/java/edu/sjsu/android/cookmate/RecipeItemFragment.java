@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
 
@@ -34,7 +35,6 @@ public class RecipeItemFragment extends Fragment {
     // Since onCreate is called only once, I added my DemonSlayer objects in this method.
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        getRandomRecipes();
         super.onCreate(savedInstanceState);
     }
 
@@ -49,12 +49,38 @@ public class RecipeItemFragment extends Fragment {
             recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new RecipeItemAdapter(recipeItems));
+            getRandomRecipes(context);
         }
 
         return view;
     }
 
-    public void getRandomRecipes() {
+    public void searchRecipes(String query, Context context) {
+        recipeItems.clear();
+        String apiKey = BuildConfig.SPOONACULAR_API;
+        String urlString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKey + "&query=" + query + "&number=20";
+        new NetworkTask(recipes -> {
+
+            try {
+                JSONObject responseObject = new JSONObject(recipes);
+                JSONArray responseArray = responseObject.getJSONArray("results");
+                for (int i = 0; i < responseArray.length(); i++) {
+                    JSONObject item = responseArray.getJSONObject(i);
+                    recipeItems.add(new RecipeItem(item.getLong("id"),
+                            item.getString("title"),
+                            item.getString("image"),
+                            item.getString("imageType")));
+                }
+                // Update the RecyclerView with the new recipe items
+                recyclerView.getAdapter().notifyDataSetChanged();
+            } catch (JSONException e) {
+                System.out.println(e);
+            }
+        }, context).execute(urlString);
+    }
+
+
+    public void getRandomRecipes(Context context) {
         String apiKey = BuildConfig.SPOONACULAR_API;
         String urlString = "https://api.spoonacular.com/recipes/random?apiKey=" + apiKey + "&limitLicense=true&number=20";
         new NetworkTask(recipes -> {
@@ -67,12 +93,12 @@ public class RecipeItemFragment extends Fragment {
                             item.getString("title"),
                             item.getString("image"),
                             item.getString("imageType")));
+                    Objects.requireNonNull(recyclerView.getAdapter()).notifyItemChanged(i);
                 }
-                recyclerView.setAdapter(new RecipeItemAdapter(recipeItems));
             } catch (JSONException e) {
                 System.out.println(e);
             }
 
-        }, getContext()).execute(urlString);
+        }, context).execute(urlString);
     }
 }
