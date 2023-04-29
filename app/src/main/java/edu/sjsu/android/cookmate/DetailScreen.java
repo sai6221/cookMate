@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 
 import edu.sjsu.android.cookmate.databinding.FragmentDetailScreenBinding;
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
+import edu.sjsu.android.cookmate.helpers.UnitConversion;
 
 public class DetailScreen extends Fragment {
 
@@ -65,31 +67,71 @@ public class DetailScreen extends Fragment {
                 SpannableString summarySpannableString = new SpannableString(HtmlCompat.fromHtml(summary, HtmlCompat.FROM_HTML_MODE_LEGACY));
                 binding.detailDescription.setText(summarySpannableString);
 
-                String instructions = jsonObject.getString("instructions");
-                SpannableString instructionsSpannableString = new SpannableString(HtmlCompat.fromHtml(instructions, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                binding.instructions.setText(instructionsSpannableString);
-
                 LinearLayout ingredientsLayout = binding.ingredientsLayout;
 
                 JSONArray ingredients = jsonObject.getJSONArray("extendedIngredients");
-                StringBuilder builder = new StringBuilder();
-                int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
                 for (int i = 0; i < ingredients.length(); i++) {
                     // Create the radio button and set its text
                     CheckBox checkBox = new CheckBox(getContext());
                     JSONObject ingredient = ingredients.getJSONObject(i);
                     checkBox.setText(ingredient.get("original").toString());
-                    checkBox.setGravity(Gravity.LEFT);
+                    checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    checkBox.setGravity(Gravity.START);
+
+                    int padding = UnitConversion.dpToPixelConversion(3, requireContext());
+                    checkBox.setPadding(0, padding, 0, 0);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT
                     );
-                    layoutParams.setMargins(0, margin, 0, 0);
 
+                    int margin = UnitConversion.dpToPixelConversion(16, requireContext());
+                    layoutParams.setMargins(0, margin, 0, 0);
                     ingredientsLayout.addView(checkBox, layoutParams);
                 }
-                String result = builder.toString();
-                binding.ingredients.setText(result);
+
+                JSONArray instructions = (JSONArray) ((JSONObject) jsonObject.getJSONArray("analyzedInstructions").get(0)).get("steps");
+                for (int i = 0; i < instructions.length(); i++) {
+                    JSONObject stepObject = instructions.getJSONObject(i);
+
+                    LinearLayout linearLayout = new LinearLayout(getContext());
+                    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    // Set layout width
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, // width
+                            LinearLayout.LayoutParams.WRAP_CONTENT // height
+                    );
+                    linearLayout.setLayoutParams(layoutParams);
+                    // set layout params
+                    int padding = UnitConversion.dpToPixelConversion(10, requireContext());
+                    linearLayout.setPadding(padding, padding, padding, 0);
+
+                    TextView stepNumber = new TextView(getContext());
+                    stepNumber.setText(stepObject.getString("number"));
+                    stepNumber.setWidth(UnitConversion.dpToPixelConversion(32, requireContext()));
+                    stepNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    stepNumber.setLayoutParams(new LinearLayout.LayoutParams(
+                            UnitConversion.dpToPixelConversion(32, requireContext()), // width
+                            LinearLayout.LayoutParams.WRAP_CONTENT // height
+                    ));
+
+                    TextView instruction = new TextView(getContext());
+                    instruction.setText(stepObject.getString("step"));
+                    instruction.setWidth(UnitConversion.dpToPixelConversion(0, requireContext()));
+                    instruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    instruction.setLayoutParams(new LinearLayout.LayoutParams(
+                            0, // width
+                            LinearLayout.LayoutParams.WRAP_CONTENT, // height
+                            1.0F
+                    ));
+
+                    linearLayout.addView(stepNumber);
+                    linearLayout.addView(instruction);
+
+                    // add the LinearLayout to a parent RelativeLayout
+                    binding.instructionsLayoutHolder.addView(linearLayout);
+                }
+
             } catch (JSONException e) {
                 System.out.println("Error reading json:" + e);
             }

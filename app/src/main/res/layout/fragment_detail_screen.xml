@@ -37,41 +37,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="20sp"
             android:layout_marginStart="10dp"
             android:text="@string/ingredients"/>
 
         <LinearLayout
             android:id="@+id/ingredientsLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="2 Tbsp. Moroccan spice mixture (1/2 tsp. cayenne, 1/2 tsp. turmeric, 2 1/2 tsp cumin, 1 tsp. allspice, 1 tsp. cinnamon, 1/2 tsp. coriander)"
-                android:layout_marginTop="10dp"
-                />
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="2 Tbsp. Moroccan spice mixture (1/2 tsp. cayenne, 1/2 tsp. turmeric, 2 1/2 tsp cumin, 1 tsp. allspice, 1 tsp. cinnamon, 1/2 tsp. coriander)"
-                android:layout_marginTop="10dp"
-                />
-        </LinearLayout>
+            android:orientation="vertical"
+            android:padding="10dp" />
 
         <TextView
-            android:id="@+id/ingredients"
+            android:id="@+id/instructionsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="10dp"/>
-
-        <TextView
-            android:id="@+id/instructions"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"
+            android:text="@string/instructions"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"/>
+            android:orientation="vertical"
+            android:id="@+id/instructionsLayoutHolder">
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
