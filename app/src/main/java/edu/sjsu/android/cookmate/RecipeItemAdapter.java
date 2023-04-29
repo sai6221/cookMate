@@ -59,23 +59,13 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Vi
                 // Launch Detail Screen for corresponding item
                 Bundle bundle = new Bundle();
                 int position = getAdapterPosition();
-                RecipeItem recipeItem = mValues.get(position);
-                bundle.putSerializable("DEMON_SLAYER", recipeItem);
-                if(position == mValues.size()-1) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setTitle("Confirmation");
-                    builder.setMessage("This demon is not longer accepting requests, are you sure you want to contact him?");
-                    builder.setPositiveButton("Yes", (dialog, which) -> {
-                        Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailScreen, bundle);
-                    });
-                    builder.setNegativeButton("No", (dialog, which) -> {
-                        dialog.dismiss();
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                } else {
-                    Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailScreen, bundle);
-                }
+                long recipeId = mValues.get(position).getId();
+                String title = mValues.get(position).getTitle();
+                String image = mValues.get(position).getImage();
+                bundle.putSerializable("recipeId", recipeId);
+                bundle.putSerializable("title", title);
+                bundle.putSerializable("image", image);
+                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailScreen, bundle);
             });
         }
 

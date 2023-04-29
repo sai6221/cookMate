@@ -17,4 +17,5 @@
     <string name="error_email_exists">Email Already Exists</string>
     <string name="update_profile">Update Profile</string>
     <string name="search">Search</string>
+    <string name="ingredients">Ingredients</string>
 </resources>

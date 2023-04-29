@@ -1,40 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/detail_screen"
-    android:padding="10dp">
-    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true">
-    <ImageView
-        android:id="@+id/detail_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
-    </androidx.cardview.widget.CardView>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/detail_screen"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/detail_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="5dp"/>
+        <ImageView
+            android:id="@+id/detail_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/example"/>
 
-    <TextView
-        android:id="@+id/detail_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:textSize="16sp"
-        android:layout_marginLeft="5dp"/>
+        <TextView
+            android:id="@+id/detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Moroccan Chicken Tagine"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/detail_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/ingredientsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="@string/ingredients"/>
+
+        <LinearLayout
+            android:id="@+id/ingredientsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:text="2 Tbsp. Moroccan spice mixture (1/2 tsp. cayenne, 1/2 tsp. turmeric, 2 1/2 tsp cumin, 1 tsp. allspice, 1 tsp. cinnamon, 1/2 tsp. coriander)"
+                android:layout_marginTop="10dp"
+                />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:text="2 Tbsp. Moroccan spice mixture (1/2 tsp. cayenne, 1/2 tsp. turmeric, 2 1/2 tsp cumin, 1 tsp. allspice, 1 tsp. cinnamon, 1/2 tsp. coriander)"
+                android:layout_marginTop="10dp"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+</ScrollView>

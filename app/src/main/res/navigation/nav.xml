@@ -12,6 +12,15 @@
         <action
             android:id="@+id/action_mainFragment_to_detailScreen"
             app:destination="@id/detailScreen" />
+        <argument
+            android:name="id"
+            app:argType="long" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="image"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailScreen"
