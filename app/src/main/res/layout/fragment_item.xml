@@ -20,8 +20,7 @@
             android:layout_height="72dp"
             android:scaleType="centerCrop"
             android:layout_marginRight="16dp"
-            android:adjustViewBounds="true"
-            android:background="#dddddd"/>
+            android:adjustViewBounds="true"/>
 
         <TextView
             android:id="@+id/content"
@@ -29,7 +28,6 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textStyle="bold"
-            android:background="#dddddd"/>
+            android:textStyle="bold"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
