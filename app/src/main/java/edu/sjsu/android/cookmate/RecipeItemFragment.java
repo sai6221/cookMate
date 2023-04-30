@@ -1,6 +1,7 @@
 package edu.sjsu.android.cookmate;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
+import edu.sjsu.android.cookmate.helpers.UnitConversion;
 
 /**
  * A fragment representing a list of Items.
@@ -24,6 +29,8 @@ import edu.sjsu.android.cookmate.helpers.NetworkTask;
 public class RecipeItemFragment extends Fragment {
     final ArrayList<RecipeItem> recipeItems = new ArrayList<>();
     RecyclerView recyclerView;
+
+    ShimmerFrameLayout recipesShimmerLayout;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -51,7 +58,6 @@ public class RecipeItemFragment extends Fragment {
             recyclerView.setAdapter(new RecipeItemAdapter(recipeItems));
             getRandomRecipes(context);
         }
-
         return view;
     }
 
@@ -60,7 +66,6 @@ public class RecipeItemFragment extends Fragment {
         String apiKey = BuildConfig.SPOONACULAR_API;
         String urlString = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKey + "&query=" + query + "&number=20";
         new NetworkTask(recipes -> {
-
             try {
                 JSONObject responseObject = new JSONObject(recipes);
                 JSONArray responseArray = responseObject.getJSONArray("results");
@@ -73,6 +78,7 @@ public class RecipeItemFragment extends Fragment {
                 }
                 // Update the RecyclerView with the new recipe items
                 recyclerView.getAdapter().notifyDataSetChanged();
+                removeShimmers();
             } catch (JSONException e) {
                 System.out.println(e);
             }
@@ -95,10 +101,18 @@ public class RecipeItemFragment extends Fragment {
                             item.getString("imageType")));
                     Objects.requireNonNull(recyclerView.getAdapter()).notifyItemChanged(i);
                 }
+                removeShimmers();
             } catch (JSONException e) {
                 System.out.println(e);
             }
-
         }, context).execute(urlString);
     }
+
+    private void removeShimmers() {
+        Fragment mainFragment = getParentFragment();
+        ShimmerFrameLayout parentLayout = mainFragment.getView().findViewById(R.id.shimmer_view_container);
+        LinearLayout shimmerFrameLayout = mainFragment.getView().findViewWithTag("Shimmer Holder");
+        parentLayout.removeView(shimmerFrameLayout);
+    }
+
 }
