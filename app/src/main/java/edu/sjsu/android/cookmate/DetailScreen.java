@@ -1,5 +1,6 @@
 package edu.sjsu.android.cookmate;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.core.text.HtmlCompat;
@@ -14,11 +15,14 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import edu.sjsu.android.cookmate.databinding.FragmentDetailScreenBinding;
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
@@ -31,6 +35,10 @@ public class DetailScreen extends Fragment {
     String title;
     String image;
     private FragmentDetailScreenBinding binding;
+    private ShimmerFrameLayout ingredientsShimmerLayout;
+    private ShimmerFrameLayout instructionsShimmerLayout;
+
+    ArrayList<ShimmerFrameLayout> shimmerContainers = new ArrayList<>();
     public DetailScreen() {
         // Required empty public constructor
     }
@@ -52,20 +60,19 @@ public class DetailScreen extends Fragment {
         // Inflate the layout for this fragment
         binding.detailTitle.setText(title);
         Picasso.get().load(image).into(binding.detailImage);
+
         getRecipeDetails();
         return binding.getRoot();
     }
 
     public void getRecipeDetails () {
+        createShimmers();
         String apiKey = BuildConfig.SPOONACULAR_API;
         String urlString = "https://api.spoonacular.com/recipes/"+ recipeId +"/information?apiKey=" + apiKey + "&includeNutrition=true";
         new NetworkTask(details -> {
             try {
+                removeShimmers();
                 JSONObject jsonObject = new JSONObject(details);
-
-                String summary = jsonObject.getString("summary");
-                SpannableString summarySpannableString = new SpannableString(HtmlCompat.fromHtml(summary, HtmlCompat.FROM_HTML_MODE_LEGACY));
-                binding.detailDescription.setText(summarySpannableString);
 
                 LinearLayout ingredientsLayout = binding.ingredientsLayout;
 
@@ -108,7 +115,6 @@ public class DetailScreen extends Fragment {
 
                     TextView stepNumber = new TextView(getContext());
                     stepNumber.setText(stepObject.getString("number"));
-                    stepNumber.setWidth(UnitConversion.dpToPixelConversion(32, requireContext()));
                     stepNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     stepNumber.setLayoutParams(new LinearLayout.LayoutParams(
                             UnitConversion.dpToPixelConversion(32, requireContext()), // width
@@ -117,7 +123,6 @@ public class DetailScreen extends Fragment {
 
                     TextView instruction = new TextView(getContext());
                     instruction.setText(stepObject.getString("step"));
-                    instruction.setWidth(UnitConversion.dpToPixelConversion(0, requireContext()));
                     instruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                     instruction.setLayoutParams(new LinearLayout.LayoutParams(
                             0, // width
@@ -136,6 +141,102 @@ public class DetailScreen extends Fragment {
                 System.out.println("Error reading json:" + e);
             }
         }, getContext()).execute(urlString);
+    }
+
+    private void createShimmers() {
+        createIngredientsShimmer();
+        createInstructionsShimmer();
+//        TextView ingredientsLabel = binding.ingredientsLabel;
+//        ShimmerFrameLayout ingredientsShimmer = new ShimmerFrameLayout(getContext());
+//        ingredientsShimmer.setLayoutParams(new ViewGroup.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT, // width
+//                LinearLayout.LayoutParams.WRAP_CONTENT // height
+//        ));
+//        View greyView = new View(getContext());
+//        greyView.setLayoutParams(new ViewGroup.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT, // width
+//                UnitConversion.dpToPixelConversion(32, requireContext()) // height
+//        ));
+//        greyView.setBackgroundColor(Color.parseColor("#dddddd"));
+//        ingredientsShimmer.addView(greyView);
+//        ingredientsShimmer.startShimmer();
+//        shimmerContainers.add(ingredientsShimmer);
+//        binding.detailScreen.addView(ingredientsShimmer, binding.detailScreen.indexOfChild(ingredientsLabel) + 1);
+    }
+
+    private void removeShimmers() {
+        ingredientsShimmerLayout.stopShimmer();
+        binding.detailScreen.removeView(ingredientsShimmerLayout);
+        instructionsShimmerLayout.stopShimmer();
+        binding.detailScreen.removeView(instructionsShimmerLayout);
+
+    }
+
+    private void createIngredientsShimmer() {
+        ingredientsShimmerLayout = new ShimmerFrameLayout(getContext());
+        LinearLayout parentLinearLayout = new LinearLayout(getContext());
+        parentLinearLayout.setOrientation(LinearLayout.VERTICAL);
+        parentLinearLayout.setLayoutParams(new ViewGroup.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, // width
+            LinearLayout.LayoutParams.WRAP_CONTENT // height
+        ));
+        LinearLayout[] linearLayouts = makeShimmers(2);
+        for (int i = 0; i < 2; i++) {
+            parentLinearLayout.addView(linearLayouts[i]);
+        }
+        ingredientsShimmerLayout.addView(parentLinearLayout);
+        ingredientsShimmerLayout.startShimmer();
+        binding.detailScreen.addView(ingredientsShimmerLayout, binding.detailScreen.indexOfChild(binding.ingredientsLabel) + 1);
+    }
+
+    private void createInstructionsShimmer() {
+        instructionsShimmerLayout = new ShimmerFrameLayout(getContext());
+        LinearLayout parentLinearLayout = new LinearLayout(getContext());
+        parentLinearLayout.setOrientation(LinearLayout.VERTICAL);
+        parentLinearLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, // width
+                LinearLayout.LayoutParams.WRAP_CONTENT // height
+        ));
+        LinearLayout[] linearLayouts = makeShimmers(2);
+        for (int i = 0; i < 2; i++) {
+            parentLinearLayout.addView(linearLayouts[i]);
+        }
+        instructionsShimmerLayout.addView(parentLinearLayout);
+        instructionsShimmerLayout.startShimmer();
+        binding.detailScreen.addView(instructionsShimmerLayout, binding.detailScreen.indexOfChild(binding.instructionsLabel) + 1);
+    }
+
+    public LinearLayout[] makeShimmers(int n) {
+        LinearLayout[] linearLayouts = new LinearLayout[n];
+        for (int i = 0; i < n; i++) {
+            LinearLayout linearLayout = new LinearLayout(getContext());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, // width
+                    LinearLayout.LayoutParams.WRAP_CONTENT // height
+            );
+            layoutParams.setMargins(0, UnitConversion.dpToPixelConversion(10, requireContext()), 0, 0);
+            linearLayout.setLayoutParams(layoutParams);
+            View leftGreyView = new View(getContext());
+            ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
+                    UnitConversion.dpToPixelConversion(32, requireContext()), // width
+                    UnitConversion.dpToPixelConversion(32, requireContext()) // height
+            );
+            params.setMargins(0, 0, UnitConversion.dpToPixelConversion(8, requireContext()), 0);
+            leftGreyView.setLayoutParams(params);
+            leftGreyView.setBackgroundColor(Color.parseColor("#dddddd"));
+
+            View rightGreyView = new View(getContext());
+            rightGreyView.setLayoutParams(new ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, // width
+                    UnitConversion.dpToPixelConversion(32, requireContext()) // height
+            ));
+            rightGreyView.setBackgroundColor(Color.parseColor("#dddddd"));
+
+            linearLayout.addView(leftGreyView);
+            linearLayout.addView(rightGreyView);
+            linearLayouts[i] = linearLayout;
+        }
+        return linearLayouts;
     }
 
 }
