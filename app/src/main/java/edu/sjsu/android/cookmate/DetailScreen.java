@@ -82,7 +82,7 @@ public class DetailScreen extends Fragment {
                     CheckBox checkBox = new CheckBox(getContext());
                     JSONObject ingredient = ingredients.getJSONObject(i);
                     checkBox.setText(ingredient.get("original").toString());
-                    checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                     checkBox.setGravity(Gravity.START);
 
                     int padding = UnitConversion.dpToPixelConversion(3, requireContext());
@@ -92,7 +92,7 @@ public class DetailScreen extends Fragment {
                             ViewGroup.LayoutParams.WRAP_CONTENT
                     );
 
-                    int margin = UnitConversion.dpToPixelConversion(16, requireContext());
+                    int margin = UnitConversion.dpToPixelConversion(5, requireContext());
                     layoutParams.setMargins(0, margin, 0, 0);
                     ingredientsLayout.addView(checkBox, layoutParams);
                 }
@@ -110,20 +110,21 @@ public class DetailScreen extends Fragment {
                     );
                     linearLayout.setLayoutParams(layoutParams);
                     // set layout params
-                    int padding = UnitConversion.dpToPixelConversion(10, requireContext());
-                    linearLayout.setPadding(padding, padding, padding, 0);
-
+//                    int padding = UnitConversion.dpToPixelConversion(10, requireContext());
+//                    linearLayout.setPadding(padding, padding, padding, 0);
+                    int margin = UnitConversion.dpToPixelConversion(5, requireContext());
+                    layoutParams.setMargins(margin, margin, 0, 0);
                     TextView stepNumber = new TextView(getContext());
                     stepNumber.setText(stepObject.getString("number"));
-                    stepNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    stepNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                     stepNumber.setLayoutParams(new LinearLayout.LayoutParams(
-                            UnitConversion.dpToPixelConversion(32, requireContext()), // width
+                            UnitConversion.dpToPixelConversion(16, requireContext()), // width
                             LinearLayout.LayoutParams.WRAP_CONTENT // height
                     ));
 
                     TextView instruction = new TextView(getContext());
                     instruction.setText(stepObject.getString("step"));
-                    instruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    instruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                     instruction.setLayoutParams(new LinearLayout.LayoutParams(
                             0, // width
                             LinearLayout.LayoutParams.WRAP_CONTENT, // height
