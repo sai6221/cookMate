@@ -110,8 +110,6 @@ public class DetailScreen extends Fragment {
                     );
                     linearLayout.setLayoutParams(layoutParams);
                     // set layout params
-//                    int padding = UnitConversion.dpToPixelConversion(10, requireContext());
-//                    linearLayout.setPadding(padding, padding, padding, 0);
                     int margin = UnitConversion.dpToPixelConversion(5, requireContext());
                     layoutParams.setMargins(margin, margin, 0, 0);
                     TextView stepNumber = new TextView(getContext());
