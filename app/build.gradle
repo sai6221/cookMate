@@ -11,6 +11,9 @@ android {
     namespace 'edu.sjsu.android.cookmate'
     compileSdk 33
 
+    //SAI IS THE BEST
+    //- VT343 Gang
+
     buildFeatures {
         viewBinding true
     }

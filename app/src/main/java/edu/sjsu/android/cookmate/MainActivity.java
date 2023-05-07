@@ -29,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.action_save:
+//                if item in table{
+//                    item.setIcon(R.drawable.save_checked);
+//                }
+//                else{
+//                    item.setIcon(R.drawable.save_unchecked);
+//                }
+
             case R.id.information:
                 NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView2);
                 navController.navigate(R.id.action_global_informationScreen);
