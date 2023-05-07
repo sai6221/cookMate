@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import edu.sjsu.android.cookmate.model.User;
+import edu.sjsu.android.cookmate.model.Saved;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // User table name
     private static final String TABLE_USER = "user";
+    private static final String TABLE_RECIPE = "recipe";
 
     // User Table Columns names
     private static final String COLUMN_USER_ID = "user_id";
+    private static final String COLUMN_RECIPE_ID = "recipe_id";
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
@@ -33,8 +36,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
             + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
 
+    private String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "("
+            + COLUMN_USER_ID + " INTEGER PRIMARY KEY," + COLUMN_RECIPE_ID + " INTEGER"+")";
+
     // drop table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+    private String DROP_RECIPE_TABLE = "DROP TABLE IF EXISTS " + TABLE_RECIPE;
 
     /**
      * Constructor
@@ -48,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_RECIPE_TABLE);
     }
 
 
@@ -56,6 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Drop User Table if exist
         db.execSQL(DROP_USER_TABLE);
+        db.execSQL(DROP_RECIPE_TABLE);
 
         // Create tables again
         onCreate(db);
@@ -77,6 +86,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Inserting Row
         db.insert(TABLE_USER, null, values);
+        db.close();
+    }
+
+    public void addRecipe(Saved saved) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_ID, saved.getUserId());
+        values.put(COLUMN_RECIPE_ID, saved.getRecipeId());
+
+        // Inserting Row
+        db.insert(TABLE_RECIPE, null, values);
         db.close();
     }
 
@@ -166,12 +186,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    /**
-     * This method to check user exist or not
-     *
-     * @param email
-     * @return true/false
-     */
+    public void deleteRecipe(Saved saved) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // delete user record by id
+        db.delete(TABLE_RECIPE, COLUMN_RECIPE_ID + " = ?",
+                new String[]{String.valueOf(saved.getRecipeId())});
+        db.close();
+    }
+
+    public boolean checkRecipe(int recipe_id) {
+
+        // array of columns to fetch
+        String[] columns = {
+                COLUMN_RECIPE_ID
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // selection criteria
+        String selection = COLUMN_RECIPE_ID + " = ?";
+
+        // selection argument
+        String[] selectionArgs = {String.valueOf(recipe_id)};
+
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         */
+        Cursor cursor = db.query(TABLE_RECIPE, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                null);                      //The sort order
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if (cursorCount > 0) {
+            return true;
+        }
+        return false;
+    }
     public boolean checkUser(String email) {
 
         // array of columns to fetch

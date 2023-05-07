@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_save:
+
+                //TODO: implement the logic when button is clicked
 //                if item in table{
 //                    item.setIcon(R.drawable.save_checked);
 //                }

@@ -57,6 +57,9 @@ public class DetailScreen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDetailScreenBinding.inflate(inflater, container, false);
+        //TODO: implement something to check if the item is already in the DB then make the button clicked or else unclicked
+        //TODO: implement button
+
         // Inflate the layout for this fragment
         binding.detailTitle.setText(title);
         Picasso.get().load(image).into(binding.detailImage);
