@@ -5,9 +5,11 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.NestedScrollView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -73,7 +75,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.appCompatButtonLogin:
-                verifyFromSQLite();
+                if (verifyFromSQLite(v)) {
+                    Intent accountsIntent = new Intent(activity, MainActivity.class);
+                    accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+                    emptyInputEditText();
+                    startActivity(accountsIntent);
+                }
                 break;
             case R.id.textViewLinkRegister:
                 // Navigate to RegisterActivity
@@ -85,25 +92,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * This method is to validate the input text fields and verify login credentials from SQLite
      */
-    private void verifyFromSQLite() {
+    private boolean verifyFromSQLite(View view) {
         if (!inputValidation.isInputEditTextFilled(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
+            return false;
         }
         if (!inputValidation.isInputEditTextEmail(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
+            return false;
         }
         if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_email))) {
-            return;
+            return false;
         }
         if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
                 , textInputEditTextPassword.getText().toString().trim())) {
-            Intent accountsIntent = new Intent(activity, MainActivity.class);
-            accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
-            emptyInputEditText();
-            startActivity(accountsIntent);
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            return true;
         } else {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             // Snack Bar to show success message that record is wrong
             Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
+            return false;
         }
     }
     /**

@@ -28,7 +28,7 @@ public class InformationScreen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInformationScreenBinding.inflate(inflater, container, false);
-        binding.phone.setOnClickListener(v -> dialContact("888-8888"));
+//        binding.phone.setOnClickListener(v -> dialContact("888-8888"));
         return binding.getRoot();
     }
     public void dialContact(String phoneNumber) {

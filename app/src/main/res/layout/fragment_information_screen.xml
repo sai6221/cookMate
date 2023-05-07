@@ -4,18 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:padding="12dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cajetan's Demon Slayer Directory"
-        android:id="@+id/text"/>
+        android:text="About Our App"
+        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp"/>
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TEL: 888-8888"
-        android:id="@+id/phone"/>
-
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:text="Our app features include: A list of recipes with detailed information about each recipe.Ability to save your favorite recipes for future use. "/>
 </LinearLayout>

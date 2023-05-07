@@ -28,7 +28,8 @@
                 android:hint="@string/hint_name"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textColorHighlight="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

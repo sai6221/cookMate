@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
                 NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView2);
                 navController.navigate(R.id.action_global_informationScreen);
                 return true;
-            case R.id.uninstall:
-                onClickUninstallButton();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
