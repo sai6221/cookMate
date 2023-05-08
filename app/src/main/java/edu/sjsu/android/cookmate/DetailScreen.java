@@ -99,6 +99,7 @@ public class DetailScreen extends Fragment {
         binding.saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int userID = Integer.parseInt(sharedPreferences.getString("user_id", null));
+                isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
                 if(isPresentInDB){
                     binding.saveButton.setImageResource(R.drawable.save_unchecked);
                     databaseHelper.deleteRecipe(recipeId, userID);
