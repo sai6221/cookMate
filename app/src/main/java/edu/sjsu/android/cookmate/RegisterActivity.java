@@ -38,7 +38,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private InputValidation inputValidation;
     private DatabaseHelper databaseHelper;
     private User user;
-    private Saved sav;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +77,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         inputValidation = new InputValidation(activity);
         databaseHelper = new DatabaseHelper(activity);
         user = new User();
-        sav = new Saved();
     }
     /**
      * This implemented method is to listen the click on view
@@ -120,9 +118,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
         if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
-            sav.setRecipeId(123);
-            sav.setUserId(123);
-            databaseHelper.addRecipe(sav);
             user.setName(textInputEditTextName.getText().toString().trim());
             user.setEmail(textInputEditTextEmail.getText().toString().trim());
             user.setPassword(textInputEditTextPassword.getText().toString().trim());

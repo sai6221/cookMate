@@ -1,6 +1,7 @@
 package edu.sjsu.android.cookmate;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,9 +33,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import androidx.preference.PreferenceManager;
 import edu.sjsu.android.cookmate.databinding.FragmentDetailScreenBinding;
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
 import edu.sjsu.android.cookmate.helpers.UnitConversion;
+import edu.sjsu.android.cookmate.model.Saved;
 import edu.sjsu.android.cookmate.sql.DatabaseHelper;
 
 import static androidx.core.app.ActivityCompat.invalidateOptionsMenu;
@@ -49,10 +53,14 @@ public class DetailScreen extends Fragment {
     private ShimmerFrameLayout instructionsShimmerLayout;
 
     private DatabaseHelper databaseHelper;
+    private Saved sav;
 
+    private int userId;
     boolean isPresentInDB = false;
 
     ArrayList<ShimmerFrameLayout> shimmerContainers = new ArrayList<>();
+
+    private SharedPreferences sharedPreferences;
     public DetailScreen() {
         // Required empty public constructor
     }
@@ -66,12 +74,15 @@ public class DetailScreen extends Fragment {
             title = (String) getArguments().getSerializable("title");
             image = (String) getArguments().getSerializable("image");
         }
+        sav = new Saved();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDetailScreenBinding.inflate(inflater, container, false);
+        userId = Integer.parseInt(sharedPreferences.getString("user_id", null));
 
         // Inflate the layout for this fragment
         binding.detailTitle.setText(title);
@@ -85,6 +96,23 @@ public class DetailScreen extends Fragment {
         else{
             binding.saveButton.setImageResource(R.drawable.save_unchecked);
         }
+        binding.saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int userID = Integer.parseInt(sharedPreferences.getString("user_id", null));
+                if(isPresentInDB){
+                    binding.saveButton.setImageResource(R.drawable.save_unchecked);
+                    databaseHelper.deleteRecipe(recipeId, userID);
+                    isPresentInDB = false;
+                }
+                else{
+                    binding.saveButton.setImageResource(R.drawable.save_checked);
+                    sav.setRecipeId((int) recipeId);
+                    sav.setUserId(userID);
+                    databaseHelper.addRecipe(sav);
+                    isPresentInDB = true;
+                }
+            }
+        });
         return binding.getRoot();
     }
 
@@ -158,13 +186,7 @@ public class DetailScreen extends Fragment {
                     // add the LinearLayout to a parent RelativeLayout
                     binding.instructionsLayoutHolder.addView(linearLayout);
                 }
-
-                if (databaseHelper.checkRecipe(recipeId)){
-                    isPresentInDB = true;
-                }
-                else{
-                    isPresentInDB = false;
-                }
+                isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
 
             } catch (JSONException e) {
                 System.out.println("Error reading json:" + e);

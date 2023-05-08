@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-            + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
+            + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT UNIQUE,"
             + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
 
     private String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "("
@@ -99,6 +99,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_RECIPE, null, values);
         db.close();
     }
+
+//    public void getUserId(String username){
+//        int userID =
+//        return userID;
+//    }
 
     /**
      * This method is to fetch all user and return the list of user records
@@ -186,15 +191,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteRecipe(Saved saved) {
+    public void deleteRecipe(long recipeID, int userID) {
         SQLiteDatabase db = this.getWritableDatabase();
         // delete user record by id
-        db.delete(TABLE_RECIPE, COLUMN_RECIPE_ID + " = ?",
-                new String[]{String.valueOf(saved.getRecipeId())});
+        db.delete(TABLE_RECIPE, COLUMN_RECIPE_ID + " = ? AND " + COLUMN_USER_ID + " = ?",
+                new String[]{String.valueOf(recipeID), String.valueOf(userID)});
         db.close();
     }
 
-    public boolean checkRecipe(long recipe_id) {
+    public boolean checkRecipe(long recipe_id, int userID) {
 
         // array of columns to fetch
         String[] columns = {
@@ -203,10 +208,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // selection criteria
-        String selection = COLUMN_RECIPE_ID + " = ?";
+        String selection = COLUMN_RECIPE_ID + " = ? AND " + COLUMN_USER_ID + " = ?";
 
         // selection argument
-        String[] selectionArgs = {String.valueOf(recipe_id)};
+        String[] selectionArgs = {String.valueOf(recipe_id), String.valueOf(userID)};
 
         // query user table with condition
         /**
@@ -225,10 +230,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        if (cursorCount > 0) {
-            return true;
-        }
-        return false;
+        return cursorCount > 0;
     }
     public boolean checkUser(String email) {
 
@@ -275,7 +277,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param password
      * @return true/false
      */
-    public boolean checkUser(String email, String password) {
+    public int checkUser(String email, String password) {
 
         // array of columns to fetch
         String[] columns = {
@@ -303,13 +305,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null);                      //The sort order
 
         int cursorCount = cursor.getCount();
-
+        if (cursorCount > 0) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(COLUMN_USER_ID);
+            if (columnIndex >= 0) {
+                int userId = cursor.getInt(columnIndex);
+                cursor.close();
+                db.close();
+                return userId;
+            }
+        }
         cursor.close();
         db.close();
-        if (cursorCount > 0) {
-            return true;
-        }
-
-        return false;
+        return -1;
     }
 }

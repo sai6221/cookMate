@@ -7,6 +7,7 @@ import androidx.core.widget.NestedScrollView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.preference.PreferenceManager;
 import edu.sjsu.android.cookmate.helpers.InputValidation;
 import edu.sjsu.android.cookmate.sql.DatabaseHelper;
 
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView textViewLinkRegister;
     private InputValidation inputValidation;
     private DatabaseHelper databaseHelper;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initViews();
         initListeners();
         initObjects();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
     /**
      * This method is to initialize views
@@ -102,10 +106,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_email))) {
             return false;
         }
-        if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
-                , textInputEditTextPassword.getText().toString().trim())) {
+        int userId = databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
+                , textInputEditTextPassword.getText().toString().trim());
+        if (userId >= 0) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("user_id", String.valueOf(userId));
+            editor.apply();
             return true;
         } else {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
