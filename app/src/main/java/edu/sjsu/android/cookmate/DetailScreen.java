@@ -90,6 +90,7 @@ public class DetailScreen extends Fragment {
         getRecipeDetails();
         //TODO: implement something to check if the item is already in the DB then make the button clicked or else unclicked
         //TODO: implement button
+        isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
         if(isPresentInDB){
             binding.saveButton.setImageResource(R.drawable.save_checked);
         }
