@@ -37,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
 
     private String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "("
-            + COLUMN_USER_ID + " INTEGER PRIMARY KEY," + COLUMN_RECIPE_ID + " INTEGER"+")";
+            + COLUMN_RECIPE_ID + " INTEGER PRIMARY KEY," + COLUMN_USER_ID + " INTEGER"+")";
 
     // drop table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
@@ -54,8 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_RECIPE_TABLE);
+        db.execSQL(CREATE_USER_TABLE);
     }
 
 
@@ -194,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public boolean checkRecipe(int recipe_id) {
+    public boolean checkRecipe(long recipe_id) {
 
         // array of columns to fetch
         String[] columns = {

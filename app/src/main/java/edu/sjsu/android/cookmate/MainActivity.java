@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,15 +27,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.action_save:
-
-                //TODO: implement the logic when button is clicked
-//                if item in table{
-//                    item.setIcon(R.drawable.save_checked);
-//                }
-//                else{
-//                    item.setIcon(R.drawable.save_unchecked);
-//                }
 
             case R.id.information:
                 NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView2);
@@ -47,10 +36,10 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    public void onClickUninstallButton() {
-        Uri packageURI = Uri.parse("package:edu.sjsu.android.cookmate");
-        Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-        startActivity(uninstallIntent);
-    }
+//
+//    public void onClickUninstallButton() {
+//        Uri packageURI = Uri.parse("package:edu.sjsu.android.cookmate");
+//        Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+//        startActivity(uninstallIntent);
+//    }
 }

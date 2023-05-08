@@ -1,16 +1,23 @@
 package edu.sjsu.android.cookmate;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +34,9 @@ import java.util.ArrayList;
 import edu.sjsu.android.cookmate.databinding.FragmentDetailScreenBinding;
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
 import edu.sjsu.android.cookmate.helpers.UnitConversion;
+import edu.sjsu.android.cookmate.sql.DatabaseHelper;
+
+import static androidx.core.app.ActivityCompat.invalidateOptionsMenu;
 
 public class DetailScreen extends Fragment {
 
@@ -38,6 +48,10 @@ public class DetailScreen extends Fragment {
     private ShimmerFrameLayout ingredientsShimmerLayout;
     private ShimmerFrameLayout instructionsShimmerLayout;
 
+    private DatabaseHelper databaseHelper;
+
+    boolean isPresentInDB = false;
+
     ArrayList<ShimmerFrameLayout> shimmerContainers = new ArrayList<>();
     public DetailScreen() {
         // Required empty public constructor
@@ -46,6 +60,7 @@ public class DetailScreen extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseHelper = new DatabaseHelper(getActivity());
         if (getArguments() != null) {
             recipeId = (long) getArguments().getSerializable("recipeId");
             title = (String) getArguments().getSerializable("title");
@@ -57,14 +72,19 @@ public class DetailScreen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDetailScreenBinding.inflate(inflater, container, false);
-        //TODO: implement something to check if the item is already in the DB then make the button clicked or else unclicked
-        //TODO: implement button
 
         // Inflate the layout for this fragment
         binding.detailTitle.setText(title);
         Picasso.get().load(image).into(binding.detailImage);
-
         getRecipeDetails();
+        //TODO: implement something to check if the item is already in the DB then make the button clicked or else unclicked
+        //TODO: implement button
+        if(isPresentInDB){
+            binding.saveButton.setImageResource(R.drawable.save_checked);
+        }
+        else{
+            binding.saveButton.setImageResource(R.drawable.save_unchecked);
+        }
         return binding.getRoot();
     }
 
@@ -137,6 +157,13 @@ public class DetailScreen extends Fragment {
 
                     // add the LinearLayout to a parent RelativeLayout
                     binding.instructionsLayoutHolder.addView(linearLayout);
+                }
+
+                if (databaseHelper.checkRecipe(recipeId)){
+                    isPresentInDB = true;
+                }
+                else{
+                    isPresentInDB = false;
                 }
 
             } catch (JSONException e) {

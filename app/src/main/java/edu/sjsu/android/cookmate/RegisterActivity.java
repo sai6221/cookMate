@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import edu.sjsu.android.cookmate.helpers.InputValidation;
+import edu.sjsu.android.cookmate.model.Saved;
 import edu.sjsu.android.cookmate.model.User;
 import edu.sjsu.android.cookmate.sql.DatabaseHelper;
 
@@ -37,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private InputValidation inputValidation;
     private DatabaseHelper databaseHelper;
     private User user;
+    private Saved sav;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         inputValidation = new InputValidation(activity);
         databaseHelper = new DatabaseHelper(activity);
         user = new User();
+        sav = new Saved();
     }
     /**
      * This implemented method is to listen the click on view
@@ -117,6 +120,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
         if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
+            sav.setRecipeId(123);
+            sav.setUserId(123);
+            databaseHelper.addRecipe(sav);
             user.setName(textInputEditTextName.getText().toString().trim());
             user.setEmail(textInputEditTextEmail.getText().toString().trim());
             user.setPassword(textInputEditTextPassword.getText().toString().trim());
