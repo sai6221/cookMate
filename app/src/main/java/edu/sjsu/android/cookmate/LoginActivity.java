@@ -2,7 +2,6 @@ package edu.sjsu.android.cookmate;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.NestedScrollView;
 
 import android.content.Context;
@@ -106,18 +105,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_email))) {
             return false;
         }
-        int userId = databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
+        int userId = databaseHelper.getUserId(textInputEditTextEmail.getText().toString().trim()
                 , textInputEditTextPassword.getText().toString().trim());
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         if (userId >= 0) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("user_id", String.valueOf(userId));
             editor.apply();
             return true;
         } else {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             // Snack Bar to show success message that record is wrong
             Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
             return false;

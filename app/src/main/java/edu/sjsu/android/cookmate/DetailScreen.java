@@ -73,8 +73,11 @@ public class DetailScreen extends Fragment {
             recipeId = (long) getArguments().getSerializable("recipeId");
             title = (String) getArguments().getSerializable("title");
             image = (String) getArguments().getSerializable("image");
+            sav = new Saved();
+            sav.setRecipeId((int) recipeId);
+            sav.setRecipeTitle(DetailScreen.this.title);
+            sav.setRecipeImage(DetailScreen.this.image);
         }
-        sav = new Saved();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
@@ -83,6 +86,7 @@ public class DetailScreen extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentDetailScreenBinding.inflate(inflater, container, false);
         userId = Integer.parseInt(sharedPreferences.getString("user_id", null));
+        sav.setUserId(userId);
 
         // Inflate the layout for this fragment
         binding.detailTitle.setText(title);
@@ -97,22 +101,16 @@ public class DetailScreen extends Fragment {
         else{
             binding.saveButton.setImageResource(R.drawable.save_unchecked);
         }
-        binding.saveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int userID = Integer.parseInt(sharedPreferences.getString("user_id", null));
-                isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
-                if(isPresentInDB){
-                    binding.saveButton.setImageResource(R.drawable.save_unchecked);
-                    databaseHelper.deleteRecipe(recipeId, userID);
-                    isPresentInDB = false;
-                }
-                else{
-                    binding.saveButton.setImageResource(R.drawable.save_checked);
-                    sav.setRecipeId((int) recipeId);
-                    sav.setUserId(userID);
-                    databaseHelper.addRecipe(sav);
-                    isPresentInDB = true;
-                }
+        binding.saveButton.setOnClickListener(v -> {
+            isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
+            if (isPresentInDB) {
+                binding.saveButton.setImageResource(R.drawable.save_unchecked);
+                databaseHelper.deleteRecipe(recipeId, DetailScreen.this.userId);
+                isPresentInDB = false;
+            } else{
+                binding.saveButton.setImageResource(R.drawable.save_checked);
+                databaseHelper.addRecipe(sav);
+                isPresentInDB = true;
             }
         });
         return binding.getRoot();
@@ -199,22 +197,6 @@ public class DetailScreen extends Fragment {
     private void createShimmers() {
         createIngredientsShimmer();
         createInstructionsShimmer();
-//        TextView ingredientsLabel = binding.ingredientsLabel;
-//        ShimmerFrameLayout ingredientsShimmer = new ShimmerFrameLayout(getContext());
-//        ingredientsShimmer.setLayoutParams(new ViewGroup.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT, // width
-//                LinearLayout.LayoutParams.WRAP_CONTENT // height
-//        ));
-//        View greyView = new View(getContext());
-//        greyView.setLayoutParams(new ViewGroup.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT, // width
-//                UnitConversion.dpToPixelConversion(32, requireContext()) // height
-//        ));
-//        greyView.setBackgroundColor(Color.parseColor("#dddddd"));
-//        ingredientsShimmer.addView(greyView);
-//        ingredientsShimmer.startShimmer();
-//        shimmerContainers.add(ingredientsShimmer);
-//        binding.detailScreen.addView(ingredientsShimmer, binding.detailScreen.indexOfChild(ingredientsLabel) + 1);
     }
 
     private void removeShimmers() {

@@ -20,9 +20,6 @@ import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 
-import java.util.Objects;
-import java.util.zip.Inflater;
-
 public class MainFragment extends Fragment {
 
     @Override

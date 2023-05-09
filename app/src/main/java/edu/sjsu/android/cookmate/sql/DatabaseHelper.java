@@ -9,9 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import edu.sjsu.android.cookmate.model.User;
 import edu.sjsu.android.cookmate.model.Saved;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
@@ -19,29 +16,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Name
     private static final String DATABASE_NAME = "UserManager.db";
-
     // User table name
     private static final String TABLE_USER = "user";
-    private static final String TABLE_RECIPE = "recipe";
-
     // User Table Columns names
     private static final String COLUMN_USER_ID = "user_id";
-    private static final String COLUMN_RECIPE_ID = "recipe_id";
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
 
-    // create table sql query
-    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-            + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT UNIQUE,"
-            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
+    private static final String TABLE_RECIPE = "recipe";
+    private static final String COLUMN_RECIPE_ID = "recipe_id";
 
-    private String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "("
-            + COLUMN_RECIPE_ID + " INTEGER PRIMARY KEY," + COLUMN_USER_ID + " INTEGER"+")";
-
-    // drop table sql query
-    private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
-    private String DROP_RECIPE_TABLE = "DROP TABLE IF EXISTS " + TABLE_RECIPE;
+    private static final String COLUMN_RECIPE_TITLE = "recipe_title";
+    private static final String COLUMN_RECIPE_IMAGE = "recipe_image";
 
     /**
      * Constructor
@@ -54,7 +41,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "(" +
+                COLUMN_RECIPE_ID + " INTEGER," +
+                COLUMN_USER_ID + " INTEGER," +
+                COLUMN_RECIPE_TITLE + " TEXT," +
+                COLUMN_RECIPE_IMAGE + " TEXT, " +
+                "CONSTRAINT PK_" + TABLE_RECIPE + " PRIMARY KEY (" + COLUMN_RECIPE_ID + ", " + COLUMN_USER_ID + ")" + ")";
         db.execSQL(CREATE_RECIPE_TABLE);
+        // create table sql query
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(" +
+                COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_USER_NAME + " TEXT UNIQUE," +
+                COLUMN_USER_EMAIL + " TEXT," +
+                COLUMN_USER_PASSWORD + " TEXT" + ")";
         db.execSQL(CREATE_USER_TABLE);
     }
 
@@ -63,7 +62,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         //Drop User Table if exist
+        // drop table sql query
+        String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
         db.execSQL(DROP_USER_TABLE);
+        String DROP_RECIPE_TABLE = "DROP TABLE IF EXISTS " + TABLE_RECIPE;
         db.execSQL(DROP_RECIPE_TABLE);
 
         // Create tables again
@@ -94,70 +96,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_ID, saved.getUserId());
         values.put(COLUMN_RECIPE_ID, saved.getRecipeId());
+        values.put(COLUMN_RECIPE_TITLE, saved.getRecipeTitle());
+        values.put(COLUMN_RECIPE_IMAGE, saved.getRecipeImage());
 
         // Inserting Row
         db.insert(TABLE_RECIPE, null, values);
         db.close();
     }
-
-//    public void getUserId(String username){
-//        int userID =
-//        return userID;
-//    }
-
-    /**
-     * This method is to fetch all user and return the list of user records
-     *
-     * @return list
-     */
-//    public List<User> getAllUser() {
-//        // array of columns to fetch
-//        String[] columns = {
-//                COLUMN_USER_ID,
-//                COLUMN_USER_EMAIL,
-//                COLUMN_USER_NAME,
-//                COLUMN_USER_PASSWORD
-//        };
-//        // sorting orders
-//        String sortOrder =
-//                COLUMN_USER_NAME + " ASC";
-//        List<User> userList = new ArrayList<User>();
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//
-//        // query the user table
-//        /**
-//         * Here query function is used to fetch records from user table this function works like we use sql query.
-//         * SQL query equivalent to this query function is
-//         * SELECT user_id,user_name,user_email,user_password FROM user ORDER BY user_name;
-//         */
-//        Cursor cursor = db.query(TABLE_USER, //Table to query
-//                columns,    //columns to return
-//                null,        //columns for the WHERE clause
-//                null,        //The values for the WHERE clause
-//                null,       //group the rows
-//                null,       //filter by row groups
-//                sortOrder); //The sort order
-//
-//
-//        // Traversing through all rows and adding to list
-//        if (cursor.moveToFirst()) {
-//            do {
-//                User user = new User();
-//                user.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_ID))));
-//                user.setName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
-//                user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
-//                user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD)));
-//                // Adding user record to list
-//                userList.add(user);
-//            } while (cursor.moveToNext());
-//        }
-//        cursor.close();
-//        db.close();
-//
-//        // return user list
-//        return userList;
-//    }
 
     /**
      * This method to update user record
@@ -174,19 +119,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // updating row
         db.update(TABLE_USER, values, COLUMN_USER_ID + " = ?",
-                new String[]{String.valueOf(user.getId())});
-        db.close();
-    }
-
-    /**
-     * This method is to delete user record
-     *
-     * @param user
-     */
-    public void deleteUser(User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        // delete user record by id
-        db.delete(TABLE_USER, COLUMN_USER_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
         db.close();
     }
@@ -275,9 +207,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @param email
      * @param password
-     * @return true/false
+     * @return id of used
      */
-    public int checkUser(String email, String password) {
+    public int getUserId(String email, String password) {
 
         // array of columns to fetch
         String[] columns = {
@@ -318,5 +250,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return -1;
+    }
+    public Cursor getAllSavedRecipes(int userId) {
+
+        SQLiteDatabase database = getWritableDatabase();
+        return database.query(TABLE_RECIPE, new String[]{
+                        COLUMN_RECIPE_ID,
+                        COLUMN_RECIPE_TITLE,
+                        COLUMN_RECIPE_IMAGE},
+                COLUMN_USER_ID + " = ?", new String[] {String.valueOf(userId)}, null, null, null);
     }
 }

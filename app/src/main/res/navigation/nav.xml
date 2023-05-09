@@ -32,12 +32,19 @@
         android:name="edu.sjsu.android.cookmate.InformationScreen"
         android:label="fragment_information_screen"
         tools:layout="@layout/fragment_information_screen" >
-        <argument
-            android:name="DemonSlayer"
-            app:argType="edu.sjsu.android.cookmate.RecipeItem" />
     </fragment>
 
-    <action android:id="@+id/action_global_informationScreen" app:destination="@id/informationScreen" />
+    <fragment
+        android:id="@+id/profilePageScreen"
+        android:name="edu.sjsu.android.cookmate.ProfilePage"
+        android:label="fragment_profile_page"
+        tools:layout="@layout/fragment_profile_page" >
+    </fragment>
+    <fragment
+        android:id="@+id/savedRecipes"
+        android:name="edu.sjsu.android.cookmate.SavedRecipeFragment"
+        android:label="saved_recipes"
+        tools:layout="@layout/saved_recipe_list" />
 
 
 </navigation>
