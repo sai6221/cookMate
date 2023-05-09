@@ -96,8 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_ID, saved.getUserId());
         values.put(COLUMN_RECIPE_ID, saved.getRecipeId());
-//        values.put(COLUMN_RECIPE_IMAGE, saved.getRecipeImage());
-//        values.put(COLUMN_RECIPE_TITLE, saved.getRecipeTitle());
+        values.put(COLUMN_RECIPE_IMAGE, saved.getRecipeImage());
+        values.put(COLUMN_RECIPE_TITLE, saved.getRecipeTitle());
 
         // Inserting Row
         db.insert(TABLE_RECIPE, null, values);
@@ -253,8 +253,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getAllSavedRecipes(int userId) {
 
-        SQLiteDatabase db = getWritableDatabase();
-        return db.query(TABLE_RECIPE, new String[]{COLUMN_RECIPE_ID},
-                COLUMN_USER_ID + " = ?", new String[]{String.valueOf(userId)},
-                null, null, null);}
+        SQLiteDatabase database = getWritableDatabase();
+        return database.query(TABLE_RECIPE, new String[]{
+                        COLUMN_RECIPE_ID,
+                        COLUMN_RECIPE_TITLE,
+                        COLUMN_RECIPE_IMAGE},
+                COLUMN_USER_ID + " = ?", new String[] {String.valueOf(userId)}, null, null, null);
+    }
 }

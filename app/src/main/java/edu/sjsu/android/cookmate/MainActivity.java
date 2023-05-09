@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private final AppCompatActivity activity = MainActivity.this;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
     @Override
@@ -81,6 +85,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navController.navigate(R.id.savedRecipes);
                 drawerLayout.close();
                 return true;
+            case R.id.nav_logout:
+                // Get the shared preferences object
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                // Get the editor object
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                // Remove the key-value pair
+                editor.remove("user_id");
+                // Commit the changes
+                editor.commit();
+                Intent accountsIntent = new Intent(activity, LoginActivity.class);
+                startActivity(accountsIntent);
             default:
                 return true;
         }

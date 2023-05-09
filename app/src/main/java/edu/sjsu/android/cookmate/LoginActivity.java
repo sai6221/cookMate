@@ -42,6 +42,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initListeners();
         initObjects();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.contains("user_id")) {
+            Intent accountsIntent = new Intent(activity, MainActivity.class);
+            startActivity(accountsIntent);
+        }
+
     }
     /**
      * This method is to initialize views
