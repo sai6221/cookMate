@@ -7,45 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:id="@+id/parent">
-
     <TextView
         android:id="@+id/detail_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        android:text="Search"
+        android:text="Saved Recipes"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp">
-
-        <SearchView
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:queryHint="Search For Recipes"
-            />
-    </androidx.cardview.widget.CardView>
-
-    <include
-        layout="@layout/no_results"
-        android:id="@+id/no_results"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
-    <include
-        layout="@layout/network_error"
-        android:id="@+id/network_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
@@ -57,7 +28,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="edu.sjsu.android.cookmate.RecipeItemFragment"
+        android:name="edu.sjsu.android.cookmate.SavedRecipeItemFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="171dp"

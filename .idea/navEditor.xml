@@ -8,18 +8,13 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="action_global_informationScreen">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
                   <entry key="detailScreen">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="368" />
+                            <option name="x" value="-235" />
+                            <option name="y" value="75" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -30,8 +25,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="358" />
+                            <option name="y" value="-261" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -42,8 +37,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="368" />
+                            <option name="x" value="-577" />
+                            <option name="y" value="-119" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -53,7 +48,45 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_mainFragment_to_savedRecipes">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="profilePageScreen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-836" />
+                            <option name="y" value="-119" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_profilePageScreen_to_mainFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="savedRecipes">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-239" />
+                            <option name="y" value="-245" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

@@ -20,9 +20,6 @@ import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 
-import java.util.Objects;
-import java.util.zip.Inflater;
-
 public class MainFragment extends Fragment {
 
     @Override
@@ -45,7 +42,7 @@ public class MainFragment extends Fragment {
                     RecipeItemFragment recipeItemFragment = (RecipeItemFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerView);
                     if (recipeItemFragment != null) {
                         createShimmers(view);
-                        recipeItemFragment.searchRecipes(query, getContext());
+                        recipeItemFragment.searchRecipes(query, 0, getContext());
                         InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                     }

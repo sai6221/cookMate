@@ -3,7 +3,6 @@ package edu.sjsu.android.cookmate;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import edu.sjsu.android.cookmate.databinding.FragmentItemBinding;
+import edu.sjsu.android.cookmate.model.RecipeItem;
 
 // My adapter class that binds to each row in the list of rows.
 public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.ViewHolder> {

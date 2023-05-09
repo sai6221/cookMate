@@ -1,4 +1,4 @@
-package edu.sjsu.android.cookmate;
+package edu.sjsu.android.cookmate.model;
 import java.io.Serializable;
 // My Java Bean class for Demon Slayer
 public class RecipeItem implements Serializable {

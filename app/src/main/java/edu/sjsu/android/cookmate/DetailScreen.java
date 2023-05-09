@@ -1,17 +1,26 @@
 package edu.sjsu.android.cookmate;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,9 +33,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import androidx.preference.PreferenceManager;
 import edu.sjsu.android.cookmate.databinding.FragmentDetailScreenBinding;
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
 import edu.sjsu.android.cookmate.helpers.UnitConversion;
+import edu.sjsu.android.cookmate.model.Saved;
+import edu.sjsu.android.cookmate.sql.DatabaseHelper;
+
+import static androidx.core.app.ActivityCompat.invalidateOptionsMenu;
 
 public class DetailScreen extends Fragment {
 
@@ -38,7 +52,15 @@ public class DetailScreen extends Fragment {
     private ShimmerFrameLayout ingredientsShimmerLayout;
     private ShimmerFrameLayout instructionsShimmerLayout;
 
+    private DatabaseHelper databaseHelper;
+    private Saved sav;
+
+    private int userId;
+    boolean isPresentInDB = false;
+
     ArrayList<ShimmerFrameLayout> shimmerContainers = new ArrayList<>();
+
+    private SharedPreferences sharedPreferences;
     public DetailScreen() {
         // Required empty public constructor
     }
@@ -46,22 +68,52 @@ public class DetailScreen extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseHelper = new DatabaseHelper(getActivity());
         if (getArguments() != null) {
             recipeId = (long) getArguments().getSerializable("recipeId");
             title = (String) getArguments().getSerializable("title");
             image = (String) getArguments().getSerializable("image");
+            sav = new Saved();
+            sav.setRecipeId((int) recipeId);
+            sav.setRecipeTitle(DetailScreen.this.title);
+            sav.setRecipeImage(DetailScreen.this.image);
         }
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDetailScreenBinding.inflate(inflater, container, false);
+        userId = Integer.parseInt(sharedPreferences.getString("user_id", null));
+        sav.setUserId(userId);
+
         // Inflate the layout for this fragment
         binding.detailTitle.setText(title);
         Picasso.get().load(image).into(binding.detailImage);
-
         getRecipeDetails();
+        //TODO: implement something to check if the item is already in the DB then make the button clicked or else unclicked
+        //TODO: implement button
+        isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
+        if(isPresentInDB){
+            binding.saveButton.setImageResource(R.drawable.save_checked);
+        }
+        else{
+            binding.saveButton.setImageResource(R.drawable.save_unchecked);
+        }
+        binding.saveButton.setOnClickListener(v -> {
+            isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
+            if (isPresentInDB) {
+                binding.saveButton.setImageResource(R.drawable.save_unchecked);
+                databaseHelper.deleteRecipe(recipeId, DetailScreen.this.userId);
+                isPresentInDB = false;
+            } else{
+                binding.saveButton.setImageResource(R.drawable.save_checked);
+                databaseHelper.addRecipe(sav);
+                System.out.println("Saved the recipe");
+                isPresentInDB = true;
+            }
+        });
         return binding.getRoot();
     }
 
@@ -135,6 +187,7 @@ public class DetailScreen extends Fragment {
                     // add the LinearLayout to a parent RelativeLayout
                     binding.instructionsLayoutHolder.addView(linearLayout);
                 }
+                isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
 
             } catch (JSONException e) {
                 System.out.println("Error reading json:" + e);
@@ -145,22 +198,6 @@ public class DetailScreen extends Fragment {
     private void createShimmers() {
         createIngredientsShimmer();
         createInstructionsShimmer();
-//        TextView ingredientsLabel = binding.ingredientsLabel;
-//        ShimmerFrameLayout ingredientsShimmer = new ShimmerFrameLayout(getContext());
-//        ingredientsShimmer.setLayoutParams(new ViewGroup.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT, // width
-//                LinearLayout.LayoutParams.WRAP_CONTENT // height
-//        ));
-//        View greyView = new View(getContext());
-//        greyView.setLayoutParams(new ViewGroup.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT, // width
-//                UnitConversion.dpToPixelConversion(32, requireContext()) // height
-//        ));
-//        greyView.setBackgroundColor(Color.parseColor("#dddddd"));
-//        ingredientsShimmer.addView(greyView);
-//        ingredientsShimmer.startShimmer();
-//        shimmerContainers.add(ingredientsShimmer);
-//        binding.detailScreen.addView(ingredientsShimmer, binding.detailScreen.indexOfChild(ingredientsLabel) + 1);
     }
 
     private void removeShimmers() {

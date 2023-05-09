@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import edu.sjsu.android.cookmate.helpers.InputValidation;
+import edu.sjsu.android.cookmate.model.Saved;
 import edu.sjsu.android.cookmate.model.User;
 import edu.sjsu.android.cookmate.sql.DatabaseHelper;
 

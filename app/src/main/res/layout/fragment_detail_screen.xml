@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -23,23 +24,39 @@
             android:id="@+id/detail_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
             android:text="Moroccan Chicken Tagine"
-            android:textSize="22sp"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="12dp"/>
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/ingredientsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/ingredients"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="12dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/ingredientsLabel">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1"
+                android:text="@string/ingredients"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/saveButton"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/save_unchecked" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ingredientsLayout"
@@ -48,18 +65,20 @@
             android:orientation="vertical"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="12dp"
-            />
+            >
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/instructionsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:layout_marginTop="12dp"
             android:layout_marginLeft="12dp"
-            android:textStyle="bold"
-            android:text="@string/instructions"/>
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:text="@string/instructions"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/instructionsLayoutHolder"
