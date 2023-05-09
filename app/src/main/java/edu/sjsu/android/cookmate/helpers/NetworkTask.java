@@ -53,10 +53,10 @@ public class NetworkTask extends AsyncTask<String, Void, String> {
             if (okhttpResponse.isSuccessful()) {
                 response = okhttpResponse.body().string();
             }
+            addToCache(urls[0], response);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addToCache(urls[0], response);
         return response;
     }
 

@@ -21,6 +21,6 @@
     <string name="instructions">Instructions</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_results_try_a_different_search">No results! Try a different search</string>
+    <string name="network_error">Network Error</string>
 </resources>
