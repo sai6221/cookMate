@@ -21,6 +21,9 @@
         <argument
             android:name="image"
             app:argType="string" />
+        <action
+            android:id="@+id/action_mainFragment_to_savedRecipes"
+            app:destination="@id/savedRecipes" />
     </fragment>
     <fragment
         android:id="@+id/detailScreen"
@@ -39,12 +42,15 @@
         android:name="edu.sjsu.android.cookmate.ProfilePage"
         android:label="fragment_profile_page"
         tools:layout="@layout/fragment_profile_page" >
+        <action
+            android:id="@+id/action_profilePageScreen_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/savedRecipes"
-        android:name="edu.sjsu.android.cookmate.SavedRecipeFragment"
+        android:name="edu.sjsu.android.cookmate.SavedRecipesFragment"
         android:label="saved_recipes"
-        tools:layout="@layout/saved_recipe_list" />
+        tools:layout="@layout/fragment_saved_recipes_list" />
 
 
 </navigation>

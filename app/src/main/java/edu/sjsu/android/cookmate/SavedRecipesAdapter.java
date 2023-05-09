@@ -1,38 +1,41 @@
 package edu.sjsu.android.cookmate;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import edu.sjsu.android.cookmate.databinding.FragmentItemBinding;
 import edu.sjsu.android.cookmate.model.RecipeItem;
 
-// My adapter class that binds to each row in the list of rows.
-public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.ViewHolder> {
+import java.util.List;
+
+public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapter.ViewHolder> {
+
 
     private final List<RecipeItem> mValues;
 
     // Initialised the constructor with a list of "demon slayers"
-    public RecipeItemAdapter(List<RecipeItem> items) {
+    public SavedRecipesAdapter(List<RecipeItem> items) {
         mValues = items;
     }
 
-    // This method returns a view holder for a row
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+
     }
 
     // Retrieves each Demon Slayer from the List of demon slayers & update for each row view
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final SavedRecipesAdapter.ViewHolder holder, int position) {
         RecipeItem recipeItem = mValues.get(position);
         // Set the image as the launcher icon of Android
         Picasso.get().load(recipeItem.getImage()).into(holder.binding.icon);
@@ -65,7 +68,7 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Vi
                 bundle.putSerializable("recipeId", recipeId);
                 bundle.putSerializable("title", title);
                 bundle.putSerializable("image", image);
-                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailScreen, bundle);
+                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_savedRecipes, bundle);
             });
         }
 

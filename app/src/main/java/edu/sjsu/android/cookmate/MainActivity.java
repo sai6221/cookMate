@@ -73,6 +73,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_home:
                 navController.navigate(R.id.mainFragment);
+                System.out.println("Home clicked");
+                drawerLayout.close();
+                return true;
+            case R.id.nav_saved:
+                System.out.println("Saved Recipes clicked");
+                navController.navigate(R.id.savedRecipes);
                 drawerLayout.close();
                 return true;
             default:

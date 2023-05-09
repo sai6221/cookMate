@@ -1,7 +1,6 @@
 package edu.sjsu.android.cookmate;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
-import edu.sjsu.android.cookmate.helpers.UnitConversion;
+import edu.sjsu.android.cookmate.model.RecipeItem;
 
 /**
  * A fragment representing a list of Items.

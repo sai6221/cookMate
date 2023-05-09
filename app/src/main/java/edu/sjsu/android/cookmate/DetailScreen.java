@@ -110,6 +110,7 @@ public class DetailScreen extends Fragment {
             } else{
                 binding.saveButton.setImageResource(R.drawable.save_checked);
                 databaseHelper.addRecipe(sav);
+                System.out.println("Saved the recipe");
                 isPresentInDB = true;
             }
         });
