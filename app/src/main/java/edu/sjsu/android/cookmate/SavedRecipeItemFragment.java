@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -57,8 +60,29 @@ public class SavedRecipeItemFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new RecipeItemAdapter(recipeItems));
             getSavedRecipes();
+            addSlideItemHandler(recyclerView);
         }
         return view;
+    }
+
+    private void addSlideItemHandler(RecyclerView recyclerView) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getLayoutPosition();
+                RecipeItem deleted = recipeItems.remove(position);
+                databaseHelper.deleteRecipe(deleted.getId(), userId);
+                recyclerView.getAdapter().notifyItemRemoved(position);
+            }
+        };
+        ItemTouchHelper itemTouch = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouch.attachToRecyclerView(recyclerView);
     }
 
     private void getSavedRecipes() {
