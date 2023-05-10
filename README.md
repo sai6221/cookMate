@@ -1,29 +1,27 @@
-# README #
+# CookMate #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The cookmate app allows the user to explore delicious recipes.
 
-### What is this repository for? ###
+### Major features ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+The following are the features of the application:
 
-### How do I get set up? ###
+- User can signup, login, logout.
+- User can search for a recipe using the search bar
+- Once the user clicks on a particular recipe, we provide the recipe image, title, ingredients & instructions.
+- User can bookmark the recipe.
+- If the user no longer wants the recipe in the bookmarks, he has the ability to swipe and delete it.
+- Last, but no the least, the user can successfully logout.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
-### Contribution guidelines ###
+### APK File Location ###
 
-* Writing tests
-* Code review
-* Other guidelines
+The apk can be found at this location: `<file-path>`
 
-### Who do I talk to? ###
+### Backlog File ###
 
-* Repo owner or admin
-* Other community or team contact
+The backlog file can be found here: [CookMate Backlog](https://docs.google.com/spreadsheets/d/1AovGs9lMQ4H0QcxOOn9H8u6ZWt2h1x0YQb-dvuFNQZ8/edit#gid=0)
+
+### Final Report ###
+
+The final report can be found here: [Report](https://docs.google.com/document/d/17Fp_t0G_XVGP67PUF36lymRmrFQp8kB9QJaa3aPrgZM/edit?usp=sharing)
