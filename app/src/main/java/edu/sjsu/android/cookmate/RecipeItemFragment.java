@@ -138,7 +138,7 @@ public class RecipeItemFragment extends Fragment {
         removeNetworkErrorLayout();
         isRandom = true;
         String apiKey = BuildConfig.SPOONACULAR_API;
-        String urlString = "https://api.spoonacular.com/recipes/random?apiKey=" + apiKey + "&limitLicense=true&number=20";
+        String urlString = "https://api.spoonacular.com/recipes/random?apiKey=" + apiKey + "&number=20";
         new NetworkTask(recipes -> {
             try {
                 JSONObject responseObject = new JSONObject(recipes);
