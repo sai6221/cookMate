@@ -1,17 +1,11 @@
 package edu.sjsu.android.cookmate;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import edu.sjsu.android.cookmate.databinding.FragmentInformationScreenBinding;
-
 
 public class InformationScreen extends Fragment {
     private FragmentInformationScreenBinding binding;
@@ -28,12 +22,6 @@ public class InformationScreen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInformationScreenBinding.inflate(inflater, container, false);
-//        binding.phone.setOnClickListener(v -> dialContact("888-8888"));
         return binding.getRoot();
-    }
-    public void dialContact(String phoneNumber) {
-        Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-        dialIntent.setData(Uri.parse("tel:" + phoneNumber));
-        startActivity(dialIntent);
     }
 }

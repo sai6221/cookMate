@@ -1,38 +1,23 @@
 package edu.sjsu.android.cookmate;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
-import android.text.SpannableString;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import androidx.preference.PreferenceManager;
 import edu.sjsu.android.cookmate.databinding.FragmentDetailScreenBinding;
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
@@ -40,11 +25,8 @@ import edu.sjsu.android.cookmate.helpers.UnitConversion;
 import edu.sjsu.android.cookmate.model.Saved;
 import edu.sjsu.android.cookmate.sql.DatabaseHelper;
 
-import static androidx.core.app.ActivityCompat.invalidateOptionsMenu;
-
 public class DetailScreen extends Fragment {
 
-    // TODO: Rename and change types of parameters
     long recipeId;
     String title;
     String image;
@@ -92,8 +74,6 @@ public class DetailScreen extends Fragment {
         binding.detailTitle.setText(title);
         Picasso.get().load(image).into(binding.detailImage);
         getRecipeDetails();
-        //TODO: implement something to check if the item is already in the DB then make the button clicked or else unclicked
-        //TODO: implement button
         isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
         if(isPresentInDB){
             binding.saveButton.setImageResource(R.drawable.save_checked);
@@ -125,12 +105,9 @@ public class DetailScreen extends Fragment {
             try {
                 removeShimmers();
                 JSONObject jsonObject = new JSONObject(details);
-
                 LinearLayout ingredientsLayout = binding.ingredientsLayout;
-
                 JSONArray ingredients = jsonObject.getJSONArray("extendedIngredients");
                 for (int i = 0; i < ingredients.length(); i++) {
-                    // Create the radio button and set its text
                     CheckBox checkBox = new CheckBox(getContext());
                     JSONObject ingredient = ingredients.getJSONObject(i);
                     checkBox.setText(ingredient.get("original").toString());
@@ -157,8 +134,8 @@ public class DetailScreen extends Fragment {
                     linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                     // Set layout width
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT, // width
-                            LinearLayout.LayoutParams.WRAP_CONTENT // height
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
                     );
                     linearLayout.setLayoutParams(layoutParams);
                     // set layout params
@@ -168,23 +145,23 @@ public class DetailScreen extends Fragment {
                     stepNumber.setText(stepObject.getString("number"));
                     stepNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                     stepNumber.setLayoutParams(new LinearLayout.LayoutParams(
-                            UnitConversion.dpToPixelConversion(16, requireContext()), // width
-                            LinearLayout.LayoutParams.WRAP_CONTENT // height
+                            UnitConversion.dpToPixelConversion(16, requireContext()),
+                            LinearLayout.LayoutParams.WRAP_CONTENT
                     ));
 
                     TextView instruction = new TextView(getContext());
                     instruction.setText(stepObject.getString("step"));
                     instruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                     instruction.setLayoutParams(new LinearLayout.LayoutParams(
-                            0, // width
-                            LinearLayout.LayoutParams.WRAP_CONTENT, // height
+                            0,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
                             1.0F
                     ));
 
                     linearLayout.addView(stepNumber);
                     linearLayout.addView(instruction);
 
-                    // add the LinearLayout to a parent RelativeLayout
+                    // Add the LinearLayout to a parent RelativeLayout
                     binding.instructionsLayoutHolder.addView(linearLayout);
                 }
                 isPresentInDB = databaseHelper.checkRecipe(recipeId, userId);
@@ -195,6 +172,7 @@ public class DetailScreen extends Fragment {
         }, getContext()).execute(urlString);
     }
 
+    // Adds shimmers until the data has been loaded onto the UI
     private void createShimmers() {
         createIngredientsShimmer();
         createInstructionsShimmer();

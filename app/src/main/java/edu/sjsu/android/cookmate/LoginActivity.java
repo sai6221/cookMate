@@ -3,7 +3,6 @@ package edu.sjsu.android.cookmate;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,11 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
 import androidx.preference.PreferenceManager;
 import edu.sjsu.android.cookmate.helpers.InputValidation;
 import edu.sjsu.android.cookmate.sql.DatabaseHelper;
@@ -33,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private InputValidation inputValidation;
     private DatabaseHelper databaseHelper;
     private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
-    /**
-     * This method is to initialize views
-     */
+
     private void initViews() {
         nestedScrollView = (NestedScrollView) findViewById(R.id.nestedScrollView);
         textInputLayoutEmail = (TextInputLayout) findViewById(R.id.textInputLayoutEmail);
@@ -60,25 +56,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         appCompatButtonLogin = (AppCompatButton) findViewById(R.id.appCompatButtonLogin);
         textViewLinkRegister = (TextView) findViewById(R.id.textViewLinkRegister);
     }
-    /**
-     * This method is to initialize listeners
-     */
+
     private void initListeners() {
         appCompatButtonLogin.setOnClickListener(this);
         textViewLinkRegister.setOnClickListener(this);
     }
-    /**
-     * This method is to initialize objects to be used
-     */
+
     private void initObjects() {
         databaseHelper = new DatabaseHelper(activity);
         inputValidation = new InputValidation(activity);
     }
-    /**
-     * This implemented method is to listen the click on view
-     *
-     * @param v
-     */
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -97,9 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-    /**
-     * This method is to validate the input text fields and verify login credentials from SQLite
-     */
+
     private boolean verifyFromSQLite(View view) {
         if (!inputValidation.isInputEditTextFilled(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
             return false;
@@ -125,9 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return false;
         }
     }
-    /**
-     * This method is to empty all input edit text
-     */
+
     private void emptyInputEditText() {
         textInputEditTextEmail.setText(null);
         textInputEditTextPassword.setText(null);

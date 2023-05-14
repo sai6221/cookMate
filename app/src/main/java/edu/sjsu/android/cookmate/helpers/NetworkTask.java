@@ -4,17 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import androidx.preference.PreferenceManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.HashMap;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+// The Network Tasks extend the AsyncTask and takes care of the external network calls to be made.
 public class NetworkTask extends AsyncTask<String, Void, String> {
 
     public interface NetworkTaskCallback {
@@ -35,11 +30,8 @@ public class NetworkTask extends AsyncTask<String, Void, String> {
         String response = "";
 
         if(getFromCache(urls[0]) != null) {
-            System.out.println("HIT FROM CACHE");
             return getFromCache(urls[0]);
         }
-
-        System.out.println("MISS FROM CACHE");
 
         try {
             OkHttpClient client = new OkHttpClient();

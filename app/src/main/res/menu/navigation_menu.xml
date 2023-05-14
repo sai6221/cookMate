@@ -5,13 +5,10 @@
     <item
         android:id="@+id/nav_home"
         android:title="@string/home" />
-
     <item
         android:id="@+id/nav_saved"
         android:title="@string/saved_recipes" />
-
     <item
         android:id="@+id/nav_logout"
         android:title="@string/logout" />
-
 </menu>

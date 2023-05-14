@@ -12,14 +12,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="2dp">
-
         <ImageView
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:scaleType="centerCrop"
             android:layout_marginRight="16dp"
             android:background="#dddddd"/>
-
         <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"

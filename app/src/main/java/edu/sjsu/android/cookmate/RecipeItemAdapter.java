@@ -2,13 +2,10 @@ package edu.sjsu.android.cookmate;
 
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import edu.sjsu.android.cookmate.databinding.FragmentItemBinding;
@@ -19,7 +16,6 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Vi
 
     private final List<RecipeItem> mValues;
 
-    // Initialised the constructor with a list of "demon slayers"
     public RecipeItemAdapter(List<RecipeItem> items) {
         mValues = items;
     }
@@ -30,7 +26,7 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Vi
         return new ViewHolder(FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
-    // Retrieves each Demon Slayer from the List of demon slayers & update for each row view
+    // Retrieves each Recipe from the List of Recipes & update for each row view
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         RecipeItem recipeItem = mValues.get(position);
@@ -40,15 +36,15 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Vi
         holder.binding.content.setText(recipeItem.getTitle());
     }
 
-    // Returns the total number of demon slayers
+    // Returns the total number of recipes
     @Override
     public int getItemCount() {
         return mValues.size();
     }
 
-    // Creates references the entire list of demon slayers, so they one can edit it using onBindViewHolder method
+    // Creates references the entire list of recipes, so they one can edit it using onBindViewHolder method
     // Improves performance of RecyclerView as the entire list is cached.
-    // In a nutsell, it just binds the holder to the entire list, so we do holder.ui_element
+    // In a nutshell, it just binds the holder to the entire list, so we do holder.ui_element
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final FragmentItemBinding binding;
 
@@ -58,7 +54,7 @@ public class RecipeItemAdapter extends RecyclerView.Adapter<RecipeItemAdapter.Vi
             binding.getRoot().setOnClickListener(v -> {
                 // Launch Detail Screen for corresponding item
                 Bundle bundle = new Bundle();
-                int position = getAdapterPosition();
+                int position = getBindingAdapterPosition();
                 long recipeId = mValues.get(position).getId();
                 String title = mValues.get(position).getTitle();
                 String image = mValues.get(position).getImage();
