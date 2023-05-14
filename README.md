@@ -16,7 +16,7 @@ The following are the features of the application:
 
 ### APK File Location ###
 
-The apk can be found at this location: `<file-path>`
+The apk can be found at this location: [APK](https://bitbucket.org/cajeeeeeeee/cookmate/src/master/app-debug.apk)
 
 ### Backlog File ###
 
