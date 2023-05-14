@@ -33,7 +33,6 @@
         android:label="fragment_information_screen"
         tools:layout="@layout/fragment_information_screen" >
     </fragment>
-
     <fragment
         android:id="@+id/profilePageScreen"
         android:name="edu.sjsu.android.cookmate.ProfilePage"
@@ -61,6 +60,4 @@
             android:name="image"
             app:argType="string" />
     </fragment>
-
-
 </navigation>

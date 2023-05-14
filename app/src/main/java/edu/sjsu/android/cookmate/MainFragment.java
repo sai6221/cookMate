@@ -2,22 +2,14 @@ package edu.sjsu.android.cookmate;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
-
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class MainFragment extends Fragment {
@@ -30,10 +22,10 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         createShimmers(view);
         SearchView searchView = view.findViewById(R.id.search);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

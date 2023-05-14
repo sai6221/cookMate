@@ -1,5 +1,6 @@
 package edu.sjsu.android.cookmate.model;
 
+// Java bean class for each User
 public class User {
     private int id;
     private String name;

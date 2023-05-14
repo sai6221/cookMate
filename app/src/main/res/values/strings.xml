@@ -16,7 +16,6 @@
     <string name="success_message">Registration Successful</string>
     <string name="error_email_exists">Email Already Exists</string>
     <string name="update_profile">Update Profile</string>
-    <string name="search">Search</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
     <string name="nav_open">Open</string>

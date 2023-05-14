@@ -2,7 +2,6 @@ package edu.sjsu.android.cookmate;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,22 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import com.facebook.shimmer.ShimmerFrameLayout;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Objects;
-
 import edu.sjsu.android.cookmate.helpers.NetworkTask;
 import edu.sjsu.android.cookmate.model.RecipeItem;
 
-/**
- * A fragment representing a list of Items.
- */
 public class RecipeItemFragment extends Fragment {
     String query;
     int totalResult;
@@ -36,14 +28,9 @@ public class RecipeItemFragment extends Fragment {
     final ArrayList<RecipeItem> recipeItems = new ArrayList<>();
     RecyclerView recyclerView;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public RecipeItemFragment() {
     }
 
-    // Since onCreate is called only once, I added my DemonSlayer objects in this method.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +41,6 @@ public class RecipeItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             recyclerView = (RecyclerView) view;

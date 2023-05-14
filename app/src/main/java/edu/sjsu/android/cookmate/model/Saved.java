@@ -1,5 +1,6 @@
 package edu.sjsu.android.cookmate.model;
 
+// Java bean class for saved Recipes
 public class Saved {
     private int recipeId;
     private int userId;

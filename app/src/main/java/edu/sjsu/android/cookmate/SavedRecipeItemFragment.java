@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
@@ -15,31 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import com.facebook.shimmer.ShimmerFrameLayout;
-
 import java.util.ArrayList;
-
 import edu.sjsu.android.cookmate.model.RecipeItem;
 import edu.sjsu.android.cookmate.sql.DatabaseHelper;
 
-/**
- * A fragment representing a list of Items.
- */
 public class SavedRecipeItemFragment extends Fragment {
     final ArrayList<RecipeItem> recipeItems = new ArrayList<>();
     RecyclerView recyclerView;
     DatabaseHelper databaseHelper;
     int userId;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public SavedRecipeItemFragment() {
     }
 
-    // Since onCreate is called only once, I added my DemonSlayer objects in this method.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

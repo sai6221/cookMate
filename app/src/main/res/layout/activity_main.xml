@@ -6,12 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawer">
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView2"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -21,14 +19,11 @@
             app:navGraph="@navigation/nav"
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="219dp" />
-
         <com.google.android.material.navigation.NavigationView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:menu="@menu/navigation_menu"
             android:id="@+id/navigation_menu"/>
-
     </androidx.drawerlayout.widget.DrawerLayout>
-
 </LinearLayout>
